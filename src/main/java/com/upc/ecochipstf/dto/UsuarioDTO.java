@@ -18,6 +18,7 @@ public class UsuarioDTO {
     private String emailUsuario;
     private String passwordUsuario;
     private int edadUsuario;
-    private RolDTO rol;
+    private Long rolId;
+    private String tipoRol;
 
 }
