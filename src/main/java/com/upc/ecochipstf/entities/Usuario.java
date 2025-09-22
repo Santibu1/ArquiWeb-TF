@@ -25,7 +25,7 @@ public class Usuario {
     private String passwordUsuario;
     private int edadUsuario;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "rol_id")
     private Rol rol;
 }
