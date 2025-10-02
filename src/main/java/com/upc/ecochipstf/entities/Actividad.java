@@ -16,7 +16,7 @@ public class Actividad {
     private Long actividadId;
     private String nombreActividad;
     private String descripcionActividad;
-    private String recompensaActividad;
+    private Integer recompensaActividad;
     private String categoriaActividad;
     private String estadoActividad;
     @ManyToOne

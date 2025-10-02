@@ -4,38 +4,37 @@ import com.upc.ecochipstf.dto.UsuarioDTO;
 import com.upc.ecochipstf.interfaces.IUsuarioService;
 import com.upc.ecochipstf.repositorios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api")
 public class UsuarioController {
     @Autowired
     private IUsuarioService usuarioService;
 
-    @PostMapping
-    public UsuarioDTO registrarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return usuarioService.registrarUsuario(usuarioDTO);
+    @PostMapping("/registrarUsuario")
+    public ResponseEntity<UsuarioDTO> registrar(@RequestBody UsuarioDTO dto) {
+        UsuarioDTO registrado = usuarioService.registrarUsuario(dto);
+        return ResponseEntity.ok(registrado);
     }
 
-    @GetMapping
-    public List<UsuarioDTO> listarUsuarios() {
-        return usuarioService.listarUsuarios();
+    @GetMapping("/listarUsuarios")
+    public ResponseEntity<List<UsuarioDTO>> listar() {
+        List<UsuarioDTO> lista = usuarioService.listarUsuarios();
+        return ResponseEntity.ok(lista);
     }
 
-    @GetMapping("/{id}")
-    public UsuarioDTO listarUsuarioPorId(@PathVariable Long id) {
-        return usuarioService.listarUsuarioPorId(id);
-    }
-
-    @PutMapping("/{id}")
-    public UsuarioDTO modificarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
-        usuarioDTO.setUsuarioId(id);
-        return usuarioService.modificarUsuario(usuarioDTO);
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminarUsuario(@PathVariable Long id) {
+    @DeleteMapping("/eliminarUsuario/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/editarUsuario/{id}")
+    public ResponseEntity<UsuarioDTO> editar(@RequestBody UsuarioDTO dto) {
+        UsuarioDTO actualizado = usuarioService.modificarUsuario(dto);
+        return ResponseEntity.ok(actualizado);
     }
 }

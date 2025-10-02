@@ -14,9 +14,9 @@ public class ActividadDTO {
     private Long actividadId;
     private String nombreActividad;
     private String descripcionActividad;
-    private String recompensaActividad;
+    private Integer recompensaActividad;
     private String categoriaActividad;
     private String estadoActividad;
-    private UsuarioDTO usuario;
+    private Long usuarioId;
 
 }
