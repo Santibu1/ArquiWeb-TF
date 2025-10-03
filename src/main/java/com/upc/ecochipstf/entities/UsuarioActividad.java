@@ -27,8 +27,9 @@ public class UsuarioActividad {
     @JoinColumn(name = "actividad_id", nullable = false)
     private Actividad actividad;
 
-    @Column(nullable = false)
-    private String estado; // Ej: "Pendiente", "Completada"
+    @Column(name = "estado" ,nullable = false)
+    private String estado;
 
+    @Column(name = "fecha" ,nullable = false)
     private LocalDate fechaCompletado;
 }
