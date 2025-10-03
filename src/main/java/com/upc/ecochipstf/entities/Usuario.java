@@ -20,13 +20,13 @@ public class Usuario {
     @Column(name = "idusuario", nullable = false)
     private Long usuarioId;
 
-    @Column(name = "nombre", length = 100)
+    @Column(name = "nombre", length = 100, nullable = false)
     private String nombreUsuario;
 
-    @Column(name = "apellido", length = 100)
+    @Column(name = "apellido", length = 100, nullable = false)
     private String apellidoUsuario;
 
-    @Column(name = "correo", length = 100)
+    @Column(name = "correo", length = 100, nullable = false)
     private String emailUsuario;
 
     @Column(name = "\"contraseña\"", nullable = false)
@@ -35,9 +35,10 @@ public class Usuario {
     @Column(name = "edad", length = 10, nullable = false)
     private int edadUsuario;
 
-    @Column(name = "estado", length = 50)
+    @Column(name = "estado", length = 50, nullable = false)
     private String estado;
 
+    @Column(name = "ecobits", nullable = false)
     private Long ecobits = 0L;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

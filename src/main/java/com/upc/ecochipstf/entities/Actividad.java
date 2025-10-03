@@ -13,12 +13,24 @@ import lombok.Setter;
 public class Actividad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "actividadId", nullable = false)
     private Long actividadId;
+
+    @Column(name = "nombre", nullable = false)
     private String nombreActividad;
+
+    @Column(name = "descripcion", nullable = false)
     private String descripcionActividad;
+
+    @Column(name = "recompensa", nullable = false)
     private Integer recompensaActividad;
+
+    @Column(name = "categoria", nullable = false)
     private String categoriaActividad;
+
+    @Column(name = "estado", nullable = false)
     private String estadoActividad;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
