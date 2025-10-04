@@ -49,8 +49,19 @@ public class UsuarioActividadService implements IUsuarioActividadService {
         usuarioActividad.setFechaCompletado(LocalDate.now());
         usuarioActividadRepository.save(usuarioActividad);
 
-        // Sumar ecoBits al usuario
+        // Recompensa base
         int recompensa = actividad.getRecompensaActividad();
+
+        // Verificar si el usuario tiene plan
+        if (usuario.getPlan() != null) {
+            Double porcentajeExtra = usuario.getPlan().getPorcentajeExtra(); // Ej: 0.10 (10%)
+            if (porcentajeExtra != null && porcentajeExtra > 0) {
+                int extra = (int) Math.round(recompensa * porcentajeExtra);
+                recompensa += extra;
+            }
+        }
+
+        // Sumar ecoBits al usuario
         Long ecoBitsActuales = usuario.getEcobits() == null ? 0L : usuario.getEcobits();
         usuario.setEcobits(ecoBitsActuales + recompensa);
         usuarioRepository.save(usuario);

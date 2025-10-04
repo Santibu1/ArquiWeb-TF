@@ -1,9 +1,11 @@
 package com.upc.ecochipstf.services;
 
 import com.upc.ecochipstf.dto.UsuarioDTO;
+import com.upc.ecochipstf.entities.Plan;
 import com.upc.ecochipstf.entities.Rol;
 import com.upc.ecochipstf.entities.Usuario;
 import com.upc.ecochipstf.interfaces.IUsuarioService;
+import com.upc.ecochipstf.repositorios.PlanRepository;
 import com.upc.ecochipstf.repositorios.RolRepository;
 import com.upc.ecochipstf.repositorios.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -21,6 +23,8 @@ public class UsuarioService implements IUsuarioService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private PlanRepository planRepository;
 
     @Override
     public UsuarioDTO registrarUsuario(UsuarioDTO usuarioDTO){
@@ -69,6 +73,26 @@ public class UsuarioService implements IUsuarioService {
                     return modelMapper.map(guardado, UsuarioDTO.class);
                 })
                 .orElseThrow(() -> new RuntimeException("Usuario con ID " + usuarioDTO.getUsuarioId() + " no encontrado"));
+    }
+    @Override
+    public UsuarioDTO asignarPlan(Long usuarioId, Long planId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new RuntimeException("Plan no encontrado"));
+
+        if (usuario.getPlan() != null) {
+            throw new RuntimeException("El usuario ya tiene un plan asignado. Debe cancelarlo o cambiarlo.");
+        }
+
+        usuario.setPlan(plan);
+        Usuario actualizado = usuarioRepository.save(usuario);
+
+
+        UsuarioDTO dto = modelMapper.map(actualizado, UsuarioDTO.class);
+        dto.setPlanId(plan.getPlanId());
+        return dto;
     }
 
 }
