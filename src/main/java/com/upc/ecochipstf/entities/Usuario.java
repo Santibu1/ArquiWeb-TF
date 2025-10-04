@@ -44,4 +44,9 @@ public class Usuario {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idRol", nullable = false)
     private Rol rol;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "plan_id", nullable = true)
+    private Plan plan;
 }

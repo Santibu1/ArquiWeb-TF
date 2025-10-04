@@ -37,4 +37,11 @@ public class UsuarioController {
         UsuarioDTO actualizado = usuarioService.modificarUsuario(dto);
         return ResponseEntity.ok(actualizado);
     }
+    @PutMapping("/Asignar-Plan-Usuario/{usuarioId}/plan/{planId}")
+    public ResponseEntity<UsuarioDTO> asignarPlan(
+            @PathVariable Long usuarioId,
+            @PathVariable Long planId) {
+        UsuarioDTO actualizado = usuarioService.asignarPlan(usuarioId, planId);
+        return ResponseEntity.ok(actualizado);
+    }
 }

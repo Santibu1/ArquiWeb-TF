@@ -20,6 +20,8 @@ public class UsuarioDTO {
     private Integer edadUsuario;
     private Long ecobits;
 
-    private RolDTO rolId;
+    private Long rolId;
+    private Long planId;
+
 
 }

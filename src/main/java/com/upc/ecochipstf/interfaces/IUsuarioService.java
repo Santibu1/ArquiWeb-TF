@@ -10,4 +10,5 @@ public interface IUsuarioService {
     public void eliminarUsuario(Long id);
     public UsuarioDTO modificarUsuario(UsuarioDTO usuarioDTO);
     public List<UsuarioDTO> listarUsuarios();
+    public UsuarioDTO asignarPlan(Long usuarioId, Long planId);
 }
