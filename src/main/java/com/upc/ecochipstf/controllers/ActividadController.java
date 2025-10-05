@@ -2,6 +2,7 @@ package com.upc.ecochipstf.controllers;
 
 import com.upc.ecochipstf.dto.ActividadDTO;
 import com.upc.ecochipstf.interfaces.IActividadService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ActividadController {
 
     // Crear actividad (solo Admin)
     @PostMapping("/registrarActividad")
-    public ResponseEntity<ActividadDTO> crearActividad(@RequestBody ActividadDTO actividadDTO) {
+    public ResponseEntity<ActividadDTO> crearActividad(@Valid @RequestBody ActividadDTO actividadDTO) {
         return ResponseEntity.ok(actividadService.crearActividad(actividadDTO));
     }
 

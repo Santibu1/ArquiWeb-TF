@@ -1,6 +1,7 @@
 package com.upc.ecochipstf.controllers;
 import com.upc.ecochipstf.dto.PlanDTO;
 import com.upc.ecochipstf.interfaces.IPlanService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class PlanController {
     private IPlanService planService;
 
     @PostMapping("/Crear-Plan")
-    public PlanDTO crearPlan(@RequestBody PlanDTO planDTO) {
+    public PlanDTO crearPlan(@Valid @RequestBody PlanDTO planDTO) {
         return planService.crearPlan(planDTO);
     }
 
