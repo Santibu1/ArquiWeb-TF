@@ -2,6 +2,7 @@ package com.upc.ecochipstf.controllers;
 
 import com.upc.ecochipstf.dto.RolDTO;
 import com.upc.ecochipstf.interfaces.IRolService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class RolController {
     private IRolService rolService;
 
     @PostMapping("/registrarRol")
-    public RolDTO registrar(@RequestBody RolDTO rolesDTO){ //wrapper
+    public RolDTO registrar(@Valid @RequestBody RolDTO rolesDTO){ //wrapper
         return rolService.registrar(rolesDTO);
     }
 

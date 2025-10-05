@@ -2,6 +2,7 @@ package com.upc.ecochipstf.controllers;
 
 import com.upc.ecochipstf.dto.EmpresaDTO;
 import com.upc.ecochipstf.interfaces.IEmpresaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ public class EmpresaController {
     private IEmpresaService empresaService;
 
     @PostMapping("/Registrar-Empresa")
-    public EmpresaDTO crearEmpresa(@RequestBody EmpresaDTO empresaDTO) {
+    public EmpresaDTO crearEmpresa(@Valid @RequestBody EmpresaDTO empresaDTO) {
         return empresaService.crearEmpresa(empresaDTO);
     }
 

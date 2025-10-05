@@ -2,6 +2,7 @@ package com.upc.ecochipstf.controllers;
 
 import com.upc.ecochipstf.dto.ProductoDTO;
 import com.upc.ecochipstf.interfaces.IProductoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ProductoController {
     private IProductoService productoService;
 
     @PostMapping("/Registrar-Producto")
-    public ProductoDTO crearProducto(@RequestBody ProductoDTO productoDTO) {
+    public ProductoDTO crearProducto(@Valid @RequestBody ProductoDTO productoDTO) {
         return productoService.crearProducto(productoDTO);
     }
 

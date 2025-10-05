@@ -2,6 +2,7 @@ package com.upc.ecochipstf.controllers;
 
 import com.upc.ecochipstf.dto.EventoDTO;
 import com.upc.ecochipstf.interfaces.IEventoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class EventoController {
     private IEventoService eventoService;
 
     @PostMapping("/registrar")
-    public EventoDTO registrarEvento(@RequestBody EventoDTO eventoDTO) {
+    public EventoDTO registrarEvento(@Valid @RequestBody EventoDTO eventoDTO) {
         return eventoService.registrarEvento(eventoDTO);
     }
 

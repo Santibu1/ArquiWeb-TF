@@ -4,6 +4,7 @@ import com.upc.ecochipstf.dto.LoginDTO;
 import com.upc.ecochipstf.dto.UsuarioDTO;
 import com.upc.ecochipstf.interfaces.IUsuarioService;
 import com.upc.ecochipstf.repositorios.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class UsuarioController {
     private IUsuarioService usuarioService;
 
     @PostMapping("/registrarUsuario")
-    public ResponseEntity<UsuarioDTO> registrar(@RequestBody UsuarioDTO dto) {
+    public ResponseEntity<UsuarioDTO> registrar(@Valid @RequestBody UsuarioDTO dto) {
         UsuarioDTO registrado = usuarioService.registrarUsuario(dto);
         return ResponseEntity.ok(registrado);
     }

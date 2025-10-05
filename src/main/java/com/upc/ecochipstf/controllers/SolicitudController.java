@@ -2,6 +2,7 @@ package com.upc.ecochipstf.controllers;
 
 import com.upc.ecochipstf.dto.SolicitudDTO;
 import com.upc.ecochipstf.interfaces.ISolicitudService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class SolicitudController {
     private ISolicitudService solicitudService;
 
     @PostMapping("/crear")
-    public ResponseEntity<SolicitudDTO> crearSolicitud(@RequestBody SolicitudDTO solicitudDTO) {
+    public ResponseEntity<SolicitudDTO> crearSolicitud(@Valid @RequestBody SolicitudDTO solicitudDTO) {
         SolicitudDTO creada = solicitudService.crearSolicitud(solicitudDTO);
         return ResponseEntity.ok(creada);
     }

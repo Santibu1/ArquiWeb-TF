@@ -3,6 +3,7 @@ package com.upc.ecochipstf.controllers;
 import com.upc.ecochipstf.dto.ComunidadDTO;
 import com.upc.ecochipstf.dto.MiembroDTO;
 import com.upc.ecochipstf.interfaces.IComunidadService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ComunidadController {
     private IComunidadService comunidadService;
 
     @PostMapping("/crear")
-    public ResponseEntity<ComunidadDTO> crearComunidad(@RequestBody ComunidadDTO comunidadDTO) {
+    public ResponseEntity<ComunidadDTO> crearComunidad(@Valid @RequestBody ComunidadDTO comunidadDTO) {
         ComunidadDTO creada = comunidadService.crearComunidad(comunidadDTO);
         return ResponseEntity.ok(creada);
     }
