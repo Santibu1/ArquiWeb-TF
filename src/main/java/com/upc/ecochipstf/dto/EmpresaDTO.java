@@ -15,5 +15,5 @@ public class EmpresaDTO {
     private String categoria;
     private String descripcion;
     private String estado;
-    private Long usuarioId;
+    private Long usuarioId;///
 }

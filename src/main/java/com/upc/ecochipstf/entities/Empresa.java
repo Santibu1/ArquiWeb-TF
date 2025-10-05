@@ -23,5 +23,5 @@ public class Empresa {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario usuario;//
 }

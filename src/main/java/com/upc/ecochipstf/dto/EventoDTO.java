@@ -1,23 +1,25 @@
 package com.upc.ecochipstf.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDate;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComunidadDTO {
-    private Long idComunidad;
-    private Long idSolicitud;
-    private Long idModerador;
+public class EventoDTO {
+    private Long eventoId;
     private String nombre;
-    private String ubicacion;
     private String descripcion;
+    private String ubicacion;
+    private LocalDate fecha;
+    private String organizador;
+    private String beneficios;
+    private String recompensa;
     private String estado;
-    private List<Long> miembrosIds;//
+    private Long comunidadId;//
+    //
 }
