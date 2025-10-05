@@ -29,4 +29,5 @@ public class Evento {
     @ManyToOne
     @JoinColumn(name = "comunidad_id")
     private Comunidad comunidad; //
+    //
 }

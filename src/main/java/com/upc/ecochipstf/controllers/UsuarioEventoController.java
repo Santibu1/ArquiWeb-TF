@@ -28,5 +28,6 @@ public class UsuarioEventoController {
     public void cancelar(@PathVariable Long usuarioId, @PathVariable Long eventoId) {
         usuarioEventoService.cancelarInscripcion(usuarioId, eventoId);
     }//
+    //
 }
 

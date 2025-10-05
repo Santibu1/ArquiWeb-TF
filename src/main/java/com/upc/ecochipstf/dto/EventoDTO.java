@@ -20,5 +20,6 @@ public class EventoDTO {
     private String beneficios;
     private String recompensa;
     private String estado;
-    private Long comunidadId;////
+    private Long comunidadId;//
+    //
 }

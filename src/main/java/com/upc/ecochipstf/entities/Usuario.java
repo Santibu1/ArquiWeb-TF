@@ -51,5 +51,5 @@ public class Usuario {
     private Plan plan;
 
     @ManyToMany(mappedBy = "miembros", fetch = FetchType.LAZY)
-    private List<Comunidad> comunidades;
+    private List<Comunidad> comunidades;//
 }

@@ -22,4 +22,4 @@ public class EventoController {
     public List<EventoDTO> listarEventosPorComunidad(@PathVariable Long comunidadId) {
         return eventoService.listarEventosPorComunidad(comunidadId);
     }
-}
+}//

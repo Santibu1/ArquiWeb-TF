@@ -73,5 +73,6 @@ public class UsuarioEventoService implements IUsuarioEventoService {
 
         inscripcion.setEstado("Cancelado");
         usuarioEventoRepository.save(inscripcion);
-    }//
+    }
+    //
 }

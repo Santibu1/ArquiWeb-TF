@@ -9,3 +9,4 @@ public interface IUsuarioEventoService {
     public List<UsuarioEventoDTO> listarEventosPorUsuario(Long usuarioId);
     public void cancelarInscripcion(Long usuarioId, Long eventoId);
 }//
+//
