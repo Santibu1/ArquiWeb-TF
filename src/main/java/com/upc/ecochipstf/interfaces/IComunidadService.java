@@ -14,4 +14,4 @@ public interface IComunidadService {
 
     public MiembroDTO unirUsuarioAComunidad(MiembroDTO miembroDTO);
     public List<MiembroDTO> listarComunidadesPorUsuario(Long usuarioId);
-}
+}//

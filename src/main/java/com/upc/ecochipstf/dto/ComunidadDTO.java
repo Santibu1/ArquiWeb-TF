@@ -19,5 +19,5 @@ public class ComunidadDTO {
     private String ubicacion;
     private String descripcion;
     private String estado;
-    private List<Long> miembrosIds;
+    private List<Long> miembrosIds;//
 }

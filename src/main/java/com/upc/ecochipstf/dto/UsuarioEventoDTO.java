@@ -15,5 +15,5 @@ public class UsuarioEventoDTO {
     private Long usuarioId;
     private Long eventoId;
     private int puntosGanados;
-    private String estado;
+    private String estado;///
 }

@@ -27,6 +27,6 @@ public class UsuarioEventoController {
     @DeleteMapping("/cancelar/{usuarioId}/{eventoId}")
     public void cancelar(@PathVariable Long usuarioId, @PathVariable Long eventoId) {
         usuarioEventoService.cancelarInscripcion(usuarioId, eventoId);
-    }
+    }//
 }
 

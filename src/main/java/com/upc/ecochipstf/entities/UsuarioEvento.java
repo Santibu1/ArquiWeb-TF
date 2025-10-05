@@ -27,4 +27,4 @@ public class UsuarioEvento {
 
     private int puntosGanados;
     private String estado;
-}
+}//

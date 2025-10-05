@@ -10,4 +10,4 @@ public interface UsuarioEventoRepository extends JpaRepository<UsuarioEvento, Lo
     public List<UsuarioEvento> findByUsuarioUsuarioId(Long usuarioId);
     public List<UsuarioEvento> findByEventoEventoId(Long eventoId);
     public Optional<UsuarioEvento> findByUsuarioUsuarioIdAndEventoEventoId(Long usuarioId, Long eventoId);
-}
+}//

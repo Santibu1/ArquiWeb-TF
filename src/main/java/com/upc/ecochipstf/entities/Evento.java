@@ -28,5 +28,5 @@ public class Evento {
     private String estado;      // “Próximo”, “Finalizado”, etc.
     @ManyToOne
     @JoinColumn(name = "comunidad_id")
-    private Comunidad comunidad;
+    private Comunidad comunidad; //
 }
