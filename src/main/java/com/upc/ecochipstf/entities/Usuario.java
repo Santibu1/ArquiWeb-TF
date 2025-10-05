@@ -49,4 +49,7 @@ public class Usuario {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "plan_id", nullable = true)
     private Plan plan;
+
+    @ManyToMany(mappedBy = "miembros", fetch = FetchType.LAZY)
+    private List<Comunidad> comunidades;
 }

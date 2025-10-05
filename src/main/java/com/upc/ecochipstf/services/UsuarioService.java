@@ -1,5 +1,6 @@
 package com.upc.ecochipstf.services;
 
+import com.upc.ecochipstf.dto.LoginDTO;
 import com.upc.ecochipstf.dto.UsuarioDTO;
 import com.upc.ecochipstf.entities.Plan;
 import com.upc.ecochipstf.entities.Rol;
@@ -95,4 +96,22 @@ public class UsuarioService implements IUsuarioService {
         return dto;
     }
 
+    @Override
+    public LoginDTO login(LoginDTO loginDTO) {
+        Usuario usuario = usuarioRepository.findByemailUsuario(loginDTO.getEmail());
+
+        if (usuario == null || !usuario.getPasswordUsuario().equals(loginDTO.getPassword())) {
+            LoginDTO respuesta = new LoginDTO();
+            respuesta.setMensaje("Correo o contraseña incorrectos");
+            return respuesta;
+        }
+
+        LoginDTO respuesta = new LoginDTO();
+        respuesta.setMensaje("Inicio de sesión exitoso");
+        respuesta.setUsuarioId(usuario.getUsuarioId());
+        respuesta.setNombreCompleto(usuario.getNombreUsuario() + " " + usuario.getApellidoUsuario());
+        respuesta.setRol(usuario.getRol().getTipoRol());
+
+        return respuesta;
+    }
 }
