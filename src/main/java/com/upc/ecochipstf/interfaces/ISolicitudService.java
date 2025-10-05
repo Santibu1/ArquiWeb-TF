@@ -1,14 +1,13 @@
 package com.upc.ecochipstf.interfaces;
 
-import com.upc.ecochipstf.dto.SolicitudRequestDTO;
-import com.upc.ecochipstf.dto.SolicitudResponseDTO;
+import com.upc.ecochipstf.dto.SolicitudDTO;
 
 import java.util.List;
 
 public interface ISolicitudService {
-    public SolicitudResponseDTO crearSolicitud(SolicitudRequestDTO solicitudDTO);   // moderador
-    public SolicitudResponseDTO aprobarSolicitud(Long solicitudId, Long adminId);   // admin
-    public SolicitudResponseDTO rechazarSolicitud(Long solicitudId, Long adminId);  // admin
-    public List<SolicitudResponseDTO> listarSolicitudes();
-    public SolicitudResponseDTO obtenerSolicitudPorId(Long id);
+    public SolicitudDTO crearSolicitud(SolicitudDTO solicitudDTO);       // Moderador
+    public SolicitudDTO aprobarSolicitud(Long solicitudId, Long adminId); // Admin
+    public SolicitudDTO rechazarSolicitud(Long solicitudId, Long adminId); // Admin
+    public List<SolicitudDTO> listarSolicitudes();
+    public SolicitudDTO obtenerSolicitudPorId(Long id);
 }

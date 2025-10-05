@@ -16,29 +16,32 @@ import java.time.LocalDate;
 public class Solicitud {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idsolicitud", nullable = false)
-    private Long solicitudId;
+    @Column(name = "idsolicitud")
+    private Long idSolicitud;
 
-    @Column(name = "descripcion", nullable = false, length = 200)
-    private String descripcion;
-
-    @Column(name = "estado", nullable = false, length = 20)
-    private String estado = "PENDIENTE";
-
-    @Column(name = "fecha_creacion", nullable = false)
-    private LocalDate fechaCreacion = LocalDate.now();
-
-    @Column(name = "fecha_revision")
-    private LocalDate fechaRevision;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idModerador", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_moderador", nullable = false)
     private Usuario moderador;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idAdmin")
+    @JoinColumn(name = "id_admin")
     private Usuario administrador;
 
-    @OneToOne(mappedBy = "solicitud", cascade = CascadeType.ALL)
-    private Comunidad comunidad;
+    @Column(name = "nombre_comunidad", length = 150, nullable = false)
+    private String nombreComunidad;
+
+    @Column(name = "ubicacion", length = 100, nullable = false)
+    private String ubicacion;
+
+    @Column(name = "descripcion", length = 300, nullable = false)
+    private String descripcion;
+
+    @Column(name = "estado", length = 20, nullable = false)
+    private String estado;
+
+    @Column(name = "fecha_creacion", nullable = false)
+    private LocalDate fechaCreacion;
+
+    @Column(name = "fecha_revision")
+    private LocalDate fechaRevision;
 }

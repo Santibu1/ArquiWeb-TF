@@ -1,17 +1,20 @@
 package com.upc.ecochipstf.services;
 
-import com.upc.ecochipstf.dto.ComunidadRequestDTO;
-import com.upc.ecochipstf.dto.ComunidadResponseDTO;
+import com.upc.ecochipstf.dto.ComunidadDTO;
+import com.upc.ecochipstf.dto.MiembroDTO;
 import com.upc.ecochipstf.entities.Comunidad;
 import com.upc.ecochipstf.entities.Solicitud;
+import com.upc.ecochipstf.entities.Usuario;
 import com.upc.ecochipstf.interfaces.IComunidadService;
 import com.upc.ecochipstf.repositorios.ComunidadRepository;
 import com.upc.ecochipstf.repositorios.SolicitudRepository;
+import com.upc.ecochipstf.repositorios.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,64 +23,110 @@ public class ComunidadService implements IComunidadService {
 
     @Autowired
     private ComunidadRepository comunidadRepository;
-
     @Autowired
     private SolicitudRepository solicitudRepository;
-
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     @Transactional
-    public ComunidadResponseDTO crearComunidad(ComunidadRequestDTO comunidadDTO) {
-        Solicitud solicitud = solicitudRepository.findById(comunidadDTO.getSolicitudId())
+    public ComunidadDTO crearComunidad(ComunidadDTO comunidadDTO) {
+        Comunidad comunidad = modelMapper.map(comunidadDTO, Comunidad.class);
+
+        // Vincular solicitud (ya aprobada)
+        Solicitud solicitud = solicitudRepository.findById(comunidadDTO.getIdSolicitud())
                 .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
-
-        if (!"APROBADA".equalsIgnoreCase(solicitud.getEstado())) {
-            throw new RuntimeException("No se puede crear comunidad porque la solicitud no está aprobada.");
-        }
-
-        Comunidad comunidad = new Comunidad();
-        comunidad.setNombre(comunidadDTO.getNombre());
-        comunidad.setDescripcion(comunidadDTO.getDescripcion());
-        comunidad.setEstado("ACTIVA");
         comunidad.setSolicitud(solicitud);
+        comunidad.setEstado("Activa");
 
-        Comunidad guardada = comunidadRepository.save(comunidad);
-        return modelMapper.map(guardada, ComunidadResponseDTO.class);
+        comunidad = comunidadRepository.save(comunidad);
+        return modelMapper.map(comunidad, ComunidadDTO.class);
     }
 
     @Override
-    public ComunidadResponseDTO obtenerComunidadPorId(Long id) {
+    public ComunidadDTO obtenerComunidadPorId(Long id) {
         Comunidad comunidad = comunidadRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comunidad no encontrada"));
-        return modelMapper.map(comunidad, ComunidadResponseDTO.class);
+        return modelMapper.map(comunidad, ComunidadDTO.class);
     }
 
     @Override
-    public List<ComunidadResponseDTO> listarComunidades() {
+    public List<ComunidadDTO> listarComunidades() {
         return comunidadRepository.findAll()
                 .stream()
-                .map(c -> modelMapper.map(c, ComunidadResponseDTO.class))
+                .map(comunidad -> modelMapper.map(comunidad, ComunidadDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public ComunidadResponseDTO actualizarComunidad(ComunidadRequestDTO comunidadDTO) {
-        Comunidad comunidad = comunidadRepository.findById(comunidadDTO.getSolicitudId())
-                .orElseThrow(() -> new RuntimeException("Comunidad no encontrada"));
+    public ComunidadDTO actualizarComunidad(ComunidadDTO comunidadDTO) {
+        Comunidad comunidad = modelMapper.map(comunidadDTO, Comunidad.class);
+        comunidad = comunidadRepository.save(comunidad);
+        return modelMapper.map(comunidad, ComunidadDTO.class);
+    }
 
-        comunidad.setNombre(comunidadDTO.getNombre());
-        comunidad.setDescripcion(comunidadDTO.getDescripcion());
-
-        Comunidad actualizada = comunidadRepository.save(comunidad);
-        return modelMapper.map(actualizada, ComunidadResponseDTO.class);
+    @Override
+    public void eliminarComunidad(Long id) {
+        comunidadRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void eliminarComunidad(Long id) {
-        comunidadRepository.deleteById(id);
+    public MiembroDTO unirUsuarioAComunidad(MiembroDTO miembroDTO) {
+        Comunidad comunidad = comunidadRepository.findById(miembroDTO.getIdComunidad())
+                .orElseThrow(() -> new RuntimeException("Comunidad no encontrada"));
+
+        Usuario usuario = usuarioRepository.findById(miembroDTO.getIdUsuario())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (comunidad.getMiembros() == null) {
+            comunidad.setMiembros(new ArrayList<>());
+        }
+
+        boolean yaMiembro = comunidad.getMiembros().stream()
+                .anyMatch(u -> u.getUsuarioId().equals(usuario.getUsuarioId()));
+
+        if (!yaMiembro) {
+            comunidad.getMiembros().add(usuario);
+            comunidadRepository.save(comunidad);
+        }
+
+        MiembroDTO respuesta = new MiembroDTO();
+        respuesta.setIdComunidad(comunidad.getIdComunidad());
+        respuesta.setNombreComunidad(comunidad.getNombre());
+        respuesta.setUbicacion(comunidad.getUbicacion());
+        respuesta.setDescripcion(comunidad.getDescripcion());
+        respuesta.setEstado(comunidad.getEstado());
+        respuesta.setIdUsuario(usuario.getUsuarioId());
+        respuesta.setNombreUsuario(usuario.getNombreUsuario());
+
+        return respuesta;
+    }
+
+    @Override
+    public List<MiembroDTO> listarComunidadesPorUsuario(Long usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        List<Comunidad> comunidades = comunidadRepository.findAll()
+                .stream()
+                .filter(c -> c.getMiembros() != null &&
+                        c.getMiembros().stream().anyMatch(u -> u.getUsuarioId().equals(usuarioId)))
+                .collect(Collectors.toList());
+
+        return comunidades.stream().map(c -> {
+            MiembroDTO dto = new MiembroDTO();
+            dto.setIdComunidad(c.getIdComunidad());
+            dto.setNombreComunidad(c.getNombre());
+            dto.setUbicacion(c.getUbicacion());
+            dto.setDescripcion(c.getDescripcion());
+            dto.setEstado(c.getEstado());
+            dto.setIdUsuario(usuario.getUsuarioId());
+            dto.setNombreUsuario(usuario.getNombreUsuario());
+            return dto;
+        }).collect(Collectors.toList());
     }
 }
