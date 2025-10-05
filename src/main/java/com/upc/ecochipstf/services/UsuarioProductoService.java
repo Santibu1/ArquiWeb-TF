@@ -77,9 +77,4 @@ public class UsuarioProductoService implements IUsuarioProductoService {
                     return dto;
                 }).collect(Collectors.toList());
     }
-
-
-
-
-
 }

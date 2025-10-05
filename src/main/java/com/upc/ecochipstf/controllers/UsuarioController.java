@@ -1,5 +1,6 @@
 package com.upc.ecochipstf.controllers;
 
+import com.upc.ecochipstf.dto.LoginDTO;
 import com.upc.ecochipstf.dto.UsuarioDTO;
 import com.upc.ecochipstf.interfaces.IUsuarioService;
 import com.upc.ecochipstf.repositorios.UsuarioRepository;
@@ -43,5 +44,11 @@ public class UsuarioController {
             @PathVariable Long planId) {
         UsuarioDTO actualizado = usuarioService.asignarPlan(usuarioId, planId);
         return ResponseEntity.ok(actualizado);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginDTO> login(@RequestBody LoginDTO loginDTO) {
+        LoginDTO response = usuarioService.login(loginDTO);
+        return ResponseEntity.ok(response);
     }
 }
