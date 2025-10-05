@@ -16,23 +16,30 @@ import java.util.List;
 public class Comunidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcomunidad", nullable = false)
-    private Long comunidadId;
+    @Column(name = "idcomunidad")
+    private Long idComunidad;
 
-    @Column(name = "nombre", nullable = false, length = 100)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idsolicitud", nullable = false, unique = true)
+    private Solicitud solicitud;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_moderador", nullable = false)
+    private Usuario moderador;
+
+    @Column(name = "nombre", length = 150, nullable = false)
     private String nombre;
 
-    @Column(name = "descripcion", length = 255)
+    @Column(name = "ubicacion", length = 100, nullable = false)
+    private String ubicacion;
+
+    @Column(name = "descripcion", length = 300)
     private String descripcion;
 
     @Column(name = "estado", length = 20, nullable = false)
-    private String estado = "ACTIVA";
+    private String estado; // "Activa", "Inactiva"
 
-    @OneToOne
-    @JoinColumn(name = "idsolicitud", nullable = false)
-    private Solicitud solicitud;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "usuario_comunidad",
             joinColumns = @JoinColumn(name = "idcomunidad"),

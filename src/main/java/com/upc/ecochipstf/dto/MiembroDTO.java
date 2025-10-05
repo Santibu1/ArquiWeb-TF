@@ -9,7 +9,12 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SolicitudRequestDTO {
+public class MiembroDTO {
+    private Long idComunidad;
+    private Long idUsuario;
+    private String nombreUsuario;
+    private String nombreComunidad;
+    private String ubicacion;
     private String descripcion;
-    private Long moderadorId;
+    private String estado;
 }
