@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
     @Autowired
     private IUsuarioService usuarioService;

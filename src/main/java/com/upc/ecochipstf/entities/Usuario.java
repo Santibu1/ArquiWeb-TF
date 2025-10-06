@@ -29,7 +29,7 @@ public class Usuario {
     @Column(name = "correo", length = 100, nullable = false)
     private String emailUsuario;
 
-    @Column(name = "\"contraseña\"", nullable = false)
+    @Column(name = "password", nullable = false)
     private String passwordUsuario;
 
     @Column(name = "edad", length = 10, nullable = false)

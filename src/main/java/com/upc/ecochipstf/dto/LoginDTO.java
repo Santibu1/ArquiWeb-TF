@@ -16,4 +16,5 @@ public class LoginDTO {
     private Long usuarioId;
     private String nombreCompleto;
     private String rol;
+    private String token;
 }
