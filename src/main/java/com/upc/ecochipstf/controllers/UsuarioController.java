@@ -39,8 +39,8 @@ public class UsuarioController {
 
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'MODERADOR', 'CLIENTE')")
     @PutMapping("/editarUsuario/{id}")
-    public ResponseEntity<UsuarioDTO> editar(@RequestBody UsuarioDTO dto) {
-        UsuarioDTO actualizado = usuarioService.modificarUsuario(dto);
+    public ResponseEntity<UsuarioDTO> editar(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
+        UsuarioDTO actualizado = usuarioService.modificarUsuario(id, dto);
         return ResponseEntity.ok(actualizado);
     }
 

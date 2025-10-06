@@ -76,15 +76,37 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public UsuarioDTO modificarUsuario(UsuarioDTO usuarioDTO) {
-        return usuarioRepository.findById(usuarioDTO.getUsuarioId())
-                .map(existing -> {
-                    Usuario usuarioEntidad = modelMapper.map(usuarioDTO, Usuario.class);
-                    Usuario guardado = usuarioRepository.save(usuarioEntidad);
-                    return modelMapper.map(guardado, UsuarioDTO.class);
-                })
-                .orElseThrow(() -> new RuntimeException("Usuario con ID " + usuarioDTO.getUsuarioId() + " no encontrado"));
+    @Transactional
+    public UsuarioDTO modificarUsuario(Long id, UsuarioDTO usuarioDTO) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + id + " no encontrado"));
+
+        usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        usuario.setApellidoUsuario(usuarioDTO.getApellidoUsuario());
+        usuario.setEmailUsuario(usuarioDTO.getEmailUsuario());
+
+        if (usuarioDTO.getPasswordUsuario() != null && !usuarioDTO.getPasswordUsuario().isEmpty()) {
+            usuario.setPasswordUsuario(passwordEncoder.encode(usuarioDTO.getPasswordUsuario()));
+        }
+
+        usuario.setEdadUsuario(usuarioDTO.getEdadUsuario());
+        usuario.setEcobits(usuarioDTO.getEcobits());
+
+        if (usuarioDTO.getPlanId() != null) {
+            Plan plan = planRepository.findById(usuarioDTO.getPlanId())
+                    .orElseThrow(() -> new RuntimeException("Plan no encontrado"));
+            usuario.setPlan(plan);
+        }
+
+        Usuario actualizado = usuarioRepository.save(usuario);
+
+        UsuarioDTO dto = modelMapper.map(actualizado, UsuarioDTO.class);
+        dto.setRolId(usuario.getRol() != null ? usuario.getRol().getRolId() : null);
+        dto.setPlanId(usuario.getPlan() != null ? usuario.getPlan().getPlanId() : null);
+
+        return dto;
     }
+
     @Override
     public UsuarioDTO asignarPlan(Long usuarioId, Long planId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)

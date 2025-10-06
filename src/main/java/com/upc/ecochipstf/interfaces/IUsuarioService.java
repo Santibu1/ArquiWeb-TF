@@ -9,7 +9,7 @@ import java.util.List;
 public interface IUsuarioService {
     public UsuarioDTO registrarUsuario(UsuarioDTO usuarioDTO);
     public void eliminarUsuario(Long id);
-    public UsuarioDTO modificarUsuario(UsuarioDTO usuarioDTO);
+    public UsuarioDTO modificarUsuario(Long id, UsuarioDTO usuarioDTO);
     public List<UsuarioDTO> listarUsuarios();
     public UsuarioDTO asignarPlan(Long usuarioId, Long planId);
     
