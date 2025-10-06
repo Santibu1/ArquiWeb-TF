@@ -9,9 +9,12 @@ import com.upc.ecochipstf.interfaces.IUsuarioService;
 import com.upc.ecochipstf.repositorios.PlanRepository;
 import com.upc.ecochipstf.repositorios.RolRepository;
 import com.upc.ecochipstf.repositorios.UsuarioRepository;
+import com.upc.ecochipstf.security.services.CustomUserDetailsService;
+import com.upc.ecochipstf.security.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +29,16 @@ public class UsuarioService implements IUsuarioService {
     private ModelMapper modelMapper;
     @Autowired
     private PlanRepository planRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Override
     public UsuarioDTO registrarUsuario(UsuarioDTO usuarioDTO){
-        Usuario usuarioExistente = usuarioRepository.findByemailUsuario(usuarioDTO.getEmailUsuario());
+        Usuario usuarioExistente = usuarioRepository.findByEmailUsuario(usuarioDTO.getEmailUsuario());
         if (usuarioExistente != null) {
             if ("Desactivado".equalsIgnoreCase(usuarioExistente.getEstado())) {
                 usuarioExistente.setEstado("Activo");
@@ -46,6 +55,7 @@ public class UsuarioService implements IUsuarioService {
         }
         Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
         usuario.setEstado("Activo");
+        usuario.setPasswordUsuario(passwordEncoder.encode(usuarioDTO.getPasswordUsuario()));
         usuario = usuarioRepository.save(usuario);
         return modelMapper.map(usuario, UsuarioDTO.class);
     }
@@ -98,19 +108,24 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public LoginDTO login(LoginDTO loginDTO) {
-        Usuario usuario = usuarioRepository.findByemailUsuario(loginDTO.getEmail());
+        Usuario usuario = usuarioRepository.findByEmailUsuario(loginDTO.getEmail());
 
-        if (usuario == null || !usuario.getPasswordUsuario().equals(loginDTO.getPassword())) {
+        if (usuario == null || !passwordEncoder.matches(loginDTO.getPassword(), usuario.getPasswordUsuario())) {
             LoginDTO respuesta = new LoginDTO();
             respuesta.setMensaje("Correo o contraseña incorrectos");
             return respuesta;
         }
+
+        var userDetails = customUserDetailsService.loadUserByUsername(usuario.getEmailUsuario());
+
+        String token = jwtUtil.generateToken(userDetails);
 
         LoginDTO respuesta = new LoginDTO();
         respuesta.setMensaje("Inicio de sesión exitoso");
         respuesta.setUsuarioId(usuario.getUsuarioId());
         respuesta.setNombreCompleto(usuario.getNombreUsuario() + " " + usuario.getApellidoUsuario());
         respuesta.setRol(usuario.getRol().getTipoRol());
+        respuesta.setToken(token); // 👉 necesitas agregar este campo
 
         return respuesta;
     }
