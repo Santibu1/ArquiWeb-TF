@@ -5,6 +5,7 @@ import com.upc.ecochipstf.dto.UsuarioProductoRequestDTO;
 import com.upc.ecochipstf.interfaces.IUsuarioProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class UsuarioProductoController {
     @Autowired
     private IUsuarioProductoService usuarioProductoService;
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'MODERADOR', 'CLIENTE')")
     @PostMapping("/canjear")
     public ResponseEntity<?> canjear(@RequestBody UsuarioProductoRequestDTO requestDTO) {
         try {
@@ -29,6 +31,8 @@ public class UsuarioProductoController {
             return ResponseEntity.badRequest().body(respuesta);
         }
     }
+
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'MODERADOR', 'CLIENTE')")
     @GetMapping("/historial/{usuarioId}")
     public ResponseEntity<?> listar(@PathVariable Long usuarioId) {
         List<UsuarioProductoResponseDTO> historial = usuarioProductoService.historial(usuarioId);
