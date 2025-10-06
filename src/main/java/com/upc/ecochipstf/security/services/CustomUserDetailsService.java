@@ -2,6 +2,7 @@ package com.upc.ecochipstf.security.services;
 
 import com.upc.ecochipstf.entities.Usuario;
 import com.upc.ecochipstf.repositorios.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.usuarioRepository = usuarioRepository;
     }
 
+
     @Override
+    @Transactional()
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmailUsuario(email);
 
@@ -29,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         Set<GrantedAuthority> authorities = Set.of(
-                new SimpleGrantedAuthority(usuario.getRol().getTipoRol().toUpperCase())
+                new SimpleGrantedAuthority("ROLE_" + usuario.getRol().getTipoRol().toUpperCase())
         );
 
         return org.springframework.security.core.userdetails.User

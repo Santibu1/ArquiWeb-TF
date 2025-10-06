@@ -5,6 +5,7 @@ import com.upc.ecochipstf.interfaces.IRolService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,16 +21,19 @@ public class RolController {
         return rolService.registrar(rolesDTO);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/listarRoles")
     public List<RolDTO> findAll(){
         return rolService.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/eliminarRol/{id}")
     public void eliminar(@PathVariable Long id){
         rolService.eliminarRol(id);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PutMapping("/editarRol")
     public ResponseEntity<RolDTO> editarRol(@RequestBody RolDTO rolesDTO){
         return ResponseEntity.ok(rolService.actualizar(rolesDTO));

@@ -5,6 +5,7 @@ import com.upc.ecochipstf.interfaces.IActividadService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,32 +16,37 @@ public class ActividadController {
     @Autowired
     private IActividadService actividadService;
 
-    // Crear actividad (solo Admin)
+
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping("/registrarActividad")
     public ResponseEntity<ActividadDTO> crearActividad(@Valid @RequestBody ActividadDTO actividadDTO) {
         return ResponseEntity.ok(actividadService.crearActividad(actividadDTO));
     }
 
-    // Listar todas las actividades activas
+
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'MODERADOR', 'CLIENTE')")
     @GetMapping("/listarActividades")
     public ResponseEntity<List<ActividadDTO>> listarActividadesActivas() {
         return ResponseEntity.ok(actividadService.listarActividadesActivas());
     }
 
-    // Obtener actividad por ID
+
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @GetMapping("/listarActividadesPorID/{id}")
     public ResponseEntity<ActividadDTO> obtenerActividadPorId(@PathVariable Long id) {
         return ResponseEntity.ok(actividadService.obtenerActividadPorId(id));
     }
 
-    // Actualizar actividad
+
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PutMapping("/actualizarActividades/{id}")
     public ResponseEntity<ActividadDTO> actualizarActividad(@PathVariable Long id, @RequestBody ActividadDTO actividadDTO) {
         actividadDTO.setActividadId(id);
         return ResponseEntity.ok(actividadService.actualizarActividad(actividadDTO));
     }
 
-    // Eliminar (baja lógica)
+
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @DeleteMapping("/eliminar-Actividad/{id}")
     public ResponseEntity<Void> eliminarActividad(@PathVariable Long id) {
         actividadService.eliminarActividad(id);
