@@ -1,5 +1,6 @@
 package com.upc.ecochipstf.controllers;
 
+import com.upc.ecochipstf.dto.ReporteParticipacionDTO;
 import com.upc.ecochipstf.dto.UsuarioEventoDTO;
 import com.upc.ecochipstf.interfaces.IUsuarioEventoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,15 @@ public class UsuarioEventoController {
     @DeleteMapping("/cancelar/{usuarioId}/{eventoId}")
     public void cancelar(@PathVariable Long usuarioId, @PathVariable Long eventoId) {
         usuarioEventoService.cancelarInscripcion(usuarioId, eventoId);
+    }
+
+    @PreAuthorize("hasAnyRole('CLIENTE','MODERADOR')")
+    @GetMapping("/{usuarioId}/reportes")
+    public ReporteParticipacionDTO obtenerReporteParticipacion(
+            @PathVariable Long usuarioId,
+            @RequestParam int mes,
+            @RequestParam int anio) {
+        return usuarioEventoService.obtenerReporteMensual(usuarioId, mes, anio);
     }
 }
 

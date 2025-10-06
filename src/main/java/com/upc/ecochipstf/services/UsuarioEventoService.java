@@ -1,5 +1,6 @@
 package com.upc.ecochipstf.services;
 
+import com.upc.ecochipstf.dto.ReporteParticipacionDTO;
 import com.upc.ecochipstf.dto.UsuarioEventoDTO;
 import com.upc.ecochipstf.entities.Evento;
 import com.upc.ecochipstf.entities.Usuario;
@@ -73,6 +74,28 @@ public class UsuarioEventoService implements IUsuarioEventoService {
 
         inscripcion.setEstado("Cancelado");
         usuarioEventoRepository.save(inscripcion);
+    }
+    @Override
+    public ReporteParticipacionDTO obtenerReporteMensual(Long usuarioId, int mes, int anio) {
+        List<UsuarioEvento> participaciones = usuarioEventoRepository.findParticipacionesMensuales(usuarioId, mes, anio);
+
+        int totalEventos = participaciones.size();
+        int totalPuntos = participaciones.stream()
+                .mapToInt(UsuarioEvento::getPuntosGanados)
+                .sum();
+
+        List<String> nombresEventos = participaciones.stream()
+                .map(p -> p.getEvento().getNombre())
+                .collect(Collectors.toList());
+
+        return new ReporteParticipacionDTO(
+                usuarioId,
+                mes,
+                anio,
+                totalEventos,
+                totalPuntos,
+                nombresEventos
+        );
     }
     //
 }
