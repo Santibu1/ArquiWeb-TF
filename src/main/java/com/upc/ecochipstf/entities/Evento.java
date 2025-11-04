@@ -24,7 +24,7 @@ public class Evento {
     private LocalDate fecha;    // fecha del evento
     private String organizador; // quién lo organiza
     private String beneficios;  // puntos o beneficios por participar
-    private String recompensa;  // recompensa adicional, si aplica
+    private Integer recompensa;  // recompensa adicional, si aplica
     private String estado;      // “Próximo”, “Finalizado”, etc.
     @ManyToOne
     @JoinColumn(name = "comunidad_id")
