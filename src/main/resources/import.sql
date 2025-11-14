@@ -12,10 +12,10 @@ INSERT INTO usuario (nombre, apellido, correo, password, edad, estado, ecobits, 
 INSERT INTO usuario (nombre, apellido, correo, password, edad, estado, ecobits, id_rol, plan_id) VALUES ('Ana', 'Premium', 'premium@eco.com', '$2a$12$uZbxt/nURv2wzumBz7E44O8a6I4Sy3Rt8gvP/CL1cuV97FxfVBAZW', 32, 'ACTIVO', 2000, 3, 2);
 INSERT INTO usuario (nombre, apellido, correo, password, edad, estado, ecobits, id_rol, plan_id) VALUES ('Pepe', 'Moderador', 'moderador2@eco.com', '$2a$12$Doefkd1pNlqSx9bfSURtfu7g06YvPRyQ.OMXAfQyDy.vjm1D9GZDO', 27, 'ACTIVO', 3000, 2, 1);
 
-INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('EcoChips SAC', 'Reciclaje Electrónico', 'Empresa dedicada a la recolección y reciclaje de chips electrónicos.', 'Activo', 1);
-INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('GreenBite Perú', 'Alimentos Saludables', 'Startup que produce snacks naturales a base de frutas deshidratadas y granos andinos, 100% libres de conservantes.', 'Activo', 1);
-INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('VitaPack SAC', 'Empaques Biodegradables', 'Empresa que fabrica envases y empaques compostables elaborados con almidón de maíz y fibra vegetal, ideales para negocios sostenibles.', 'Activo', 1);
-INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('SolarLife EIRL', 'Energías Renovables', 'Compañía dedicada a la instalación de paneles solares residenciales y empresariales para reducir la huella de carbono.', 'Activo', 1);
+INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('EcoChips SAC', 'Reciclaje Electrónico', 'Empresa dedicada a la recolección y reciclaje de chips electrónicos.', 'Activa', 1);
+INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('GreenBite Perú', 'Alimentos Saludables', 'Startup que produce snacks naturales a base de frutas deshidratadas y granos andinos, 100% libres de conservantes.', 'Activa', 1);
+INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('VitaPack SAC', 'Empaques Biodegradables', 'Empresa que fabrica envases y empaques compostables elaborados con almidón de maíz y fibra vegetal, ideales para negocios sostenibles.', 'Activa', 1);
+INSERT INTO empresa (nombre, categoria, descripcion, estado, usuario_id) VALUES ('SolarLife EIRL', 'Energías Renovables', 'Compañía dedicada a la instalación de paneles solares residenciales y empresariales para reducir la huella de carbono.', 'Activa', 1);
 
 INSERT INTO producto (nombre, categoria, precio, stock, estado, empresa_id) VALUES ('Mouse Reciclado', 'Accesorios', 25.00, 5, 'Activo', 1);
 INSERT INTO producto (nombre, categoria, precio, stock, estado, empresa_id) VALUES ('Teclado Ecológico', 'Accesorios', 45.00, 3, 'Inactivo', 1);
